@@ -15,14 +15,14 @@ jobs:
     steps:
       - name: Call scheduler tick endpoint
         run: |
-          echo "Target URL: ${{ vars.RENDER_URL }}/api/scheduler/tick"
-          curl -s -o response.json -w "HTTP status: %{http_code}\n" -X POST \
+          status=$(curl -s -o response.json -w "%{http_code}" -X POST \
             -H "X-API-Key: ${{ secrets.API_KEY }}" \
-            "${{ vars.RENDER_URL }}/api/scheduler/tick"
-          echo "Response body:"
+            "${{ vars.RENDER_URL }}/api/scheduler/tick")
+
+          echo "HTTP status: $status"
           cat response.json
-          echo
-          # Fail the job if the status wasn't 2xx, now that we've printed diagnostics.
-          curl -sf -o /dev/null -X POST \
-            -H "X-API-Key: ${{ secrets.API_KEY }}" \
-            "${{ vars.RENDER_URL }}/api/scheduler/tick"
+
+          if [ "$status" -lt 200 ] || [ "$status" -ge 300 ]; then
+            echo "::error::Scheduler tick failed with status $status"
+            exit 1
+          fi
