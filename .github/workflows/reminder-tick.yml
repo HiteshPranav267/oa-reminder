@@ -1,0 +1,20 @@
+name: Reminder tick
+
+on:
+  schedule:
+    # Every 10 minutes. GitHub may delay scheduled runs by up to ~10-30 min
+    # under platform load — irrelevant here since reminders are "hours
+    # before" granularity, not to-the-minute. This also wakes the Render
+    # app from free-tier sleep, so no separate keep-alive is needed.
+    - cron: "*/10 * * * *"
+  workflow_dispatch: {}  # lets you trigger a run manually from the Actions tab
+
+jobs:
+  tick:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call scheduler tick endpoint
+        run: |
+          curl -sf -X POST \
+            -H "X-API-Key: ${{ secrets.API_KEY }}" \
+            "${{ vars.RENDER_URL }}/api/scheduler/tick"

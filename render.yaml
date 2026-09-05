@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: oa-reminder
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: API_KEY
+        sync: false
+      - key: NTFY_SERVER
+        sync: false
+      - key: NTFY_TOPIC
+        sync: false
+      - key: NTFY_TOKEN
+        sync: false
+      - key: TIMEZONE
+        value: Asia/Kolkata

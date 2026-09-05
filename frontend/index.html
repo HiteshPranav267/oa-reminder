@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OA Reminders</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>Online Assessments</h1>
+    <button id="add-btn" class="btn btn-primary">+ Add OA</button>
+  </header>
+
+  <main id="app">
+    <section class="group" id="group-today">
+      <h2>Today</h2>
+      <div class="list" id="list-today"></div>
+      <p class="empty" id="empty-today" hidden>Nothing today.</p>
+    </section>
+
+    <section class="group" id="group-upcoming">
+      <h2>Upcoming</h2>
+      <div class="list" id="list-upcoming"></div>
+      <p class="empty" id="empty-upcoming" hidden>Nothing upcoming.</p>
+    </section>
+
+    <section class="group" id="group-past">
+      <h2>Past &amp; Completed</h2>
+      <div class="list" id="list-past"></div>
+      <p class="empty" id="empty-past" hidden>Nothing here yet.</p>
+    </section>
+  </main>
+
+  <!-- Add/Edit modal -->
+  <div id="modal-backdrop" class="modal-backdrop" hidden>
+    <form id="oa-form" class="modal">
+      <h2 id="modal-title">Add OA</h2>
+
+      <label>Company
+        <input type="text" id="f-company" required>
+      </label>
+
+      <label>Assessment title
+        <input type="text" id="f-title" required>
+      </label>
+
+      <div class="row">
+        <label>Date
+          <input type="date" id="f-date" required>
+        </label>
+        <label>Time
+          <input type="time" id="f-time" required>
+        </label>
+      </div>
+
+      <label>Link
+        <input type="url" id="f-link" placeholder="https://...">
+      </label>
+
+      <label>Notes
+        <textarea id="f-notes" rows="3" placeholder="Topics, format, anything to remember"></textarea>
+      </label>
+
+      <fieldset class="reminders">
+        <legend>Remind me</legend>
+        <label class="checkbox"><input type="checkbox" id="f-remind-24h" checked> 24 hours before</label>
+        <label class="checkbox"><input type="checkbox" id="f-remind-6h" checked> 6 hours before</label>
+        <label class="checkbox"><input type="checkbox" id="f-remind-2h" checked> 2 hours before</label>
+      </fieldset>
+
+      <p class="form-error" id="form-error" hidden></p>
+
+      <div class="modal-actions">
+        <button type="button" class="btn" id="cancel-btn">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="save-btn">Save</button>
+      </div>
+    </form>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
