@@ -15,6 +15,14 @@ jobs:
     steps:
       - name: Call scheduler tick endpoint
         run: |
-          curl -sf -X POST \
+          echo "Target URL: ${{ vars.RENDER_URL }}/api/scheduler/tick"
+          curl -s -o response.json -w "HTTP status: %{http_code}\n" -X POST \
+            -H "X-API-Key: ${{ secrets.API_KEY }}" \
+            "${{ vars.RENDER_URL }}/api/scheduler/tick"
+          echo "Response body:"
+          cat response.json
+          echo
+          # Fail the job if the status wasn't 2xx, now that we've printed diagnostics.
+          curl -sf -o /dev/null -X POST \
             -H "X-API-Key: ${{ secrets.API_KEY }}" \
             "${{ vars.RENDER_URL }}/api/scheduler/tick"
